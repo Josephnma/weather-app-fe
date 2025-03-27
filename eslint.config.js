@@ -1,33 +1,42 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import jest from "eslint-plugin-jest"; // ✅ Add Jest Plugin
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ["dist"] },
   {
-    files: ['**/*.{js,jsx}'],
+    files: ["**/*.{js,jsx}"],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        jest: true, // ✅ Add Jest Globals
+        expect: true
+      },
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+      "jest": jest, // ✅ Add Jest Plugin
     },
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'react-refresh/only-export-components': [
-        'warn',
+      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
+      "react-refresh/only-export-components": [
+        "warn",
         { allowConstantExport: true },
       ],
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
     },
   },
-]
+];
